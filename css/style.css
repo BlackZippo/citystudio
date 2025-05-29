@@ -5,8 +5,47 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: 'Satoshi', sans-serif;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in forwards;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    position: relative;
+    padding-top: 70px; /* Add padding to body instead */
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add transition effect for links */
+a {
+    transition: all 0.3s ease;
+}
+
+/* Smooth transition for all interactive elements */
+button, 
+input, 
+textarea, 
+.nav-link,
+.feature-box,
+.footer-section ul li a {
+    transition: all 0.3s ease;
 }
 
 /* Base typography */
@@ -29,13 +68,21 @@ p, .body-text {
 
 /* Header and Navigation styles */
 .header {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 9999;
     height: 70px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s ease;
+}
+
+.header.scrolled {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .nav {
@@ -46,11 +93,19 @@ p, .body-text {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+    position: relative;
+    z-index: 9999;
+}
+
+.logo {
+    position: relative;
+    z-index: 1000;
 }
 
 .logo img {
     height: 40px;
     width: auto;
+    display: block;
 }
 
 .nav-menu {
@@ -58,6 +113,10 @@ p, .body-text {
     align-items: center;
     gap: 2rem;
     list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 9999;
 }
 
 .nav-link {
@@ -69,6 +128,8 @@ p, .body-text {
     text-decoration: none;
     color: #000;
     transition: color 0.3s ease;
+    display: block;
+    position: relative;
 }
 
 .nav-link:hover {
@@ -81,7 +142,10 @@ p, .body-text {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 70px; /* Height of header */
+    position: relative;
+    z-index: 1;
+    padding-top: 0;
+    margin-top: 0;
 }
 
 /* Hero Section */
@@ -89,6 +153,8 @@ p, .body-text {
     width: 100%;
     position: relative;
     overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 .hero-image {
@@ -280,6 +346,13 @@ p, .body-text {
     align-items: center;
 }
 
+.why-us a {
+    text-decoration: none;
+    display: block;
+    width: fit-content;
+    margin: 3rem auto 0;
+}
+
 .view-more-btn {
     width: 193px;
     height: 50px;
@@ -291,7 +364,6 @@ p, .body-text {
     font-size: 16px;
     color: #2B2B2B;
     cursor: pointer;
-    margin-top: 3rem;
     transition: all 0.3s ease;
 }
 
@@ -314,48 +386,12 @@ p, .body-text {
 }
 
 @media (max-width: 768px) {
-    .features-container {
-        gap: 15px;
-    }
-
-    .feature-box {
-        width: calc(50% - 7.5px);
-        height: 340px;
-        padding: 2rem 0.75rem;
-    }
-
-    .view-more-btn {
-        margin-top: 2rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .features-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .feature-box {
-        width: 100%;
-        max-width: 400px;
-        height: 360px;
-        padding: 2rem 0.75rem;
-        margin: 0;
-    }
-
-    .why-us {
-        padding: 0 1rem;
-    }
-}
-
-@media (max-width: 768px) {
     .header {
         height: 60px;
     }
 
     .intro {
-        margin-top: 60px; /* Adjusted for mobile header height */
+        padding-top: 60px; /* Adjusted for mobile header height */
     }
 
     .nav, .hero-image {
@@ -367,9 +403,11 @@ p, .body-text {
         min-height: 300px;
     }
 
-    /* Rest of mobile menu styles */
+    /* Mobile menu styles */
     .hamburger {
         display: block;
+        position: relative;
+        z-index: 1000;
     }
 
     .hamburger.active .bar:nth-child(2) {
@@ -387,21 +425,38 @@ p, .body-text {
     .nav-menu {
         position: fixed;
         left: -100%;
-        top: 70px;
+        top: 0;
         gap: 0;
         flex-direction: column;
-        background-color: #fff;
+        background-color: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         width: 100%;
+        height: 100vh;
         text-align: center;
         transition: 0.3s;
-    }
-
-    .nav-item {
-        margin: 16px 0;
+        z-index: 900;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .nav-menu.active {
         left: 0;
+    }
+
+    .nav-item {
+        margin: 24px 0;
+    }
+
+    .nav-link {
+        font-size: 24px;
+    }
+
+    /* Ensure header stays on top of the overlay */
+    .header {
+        background-color: #fff;
+        z-index: 1000;
     }
 
     .main-heading {
@@ -433,6 +488,24 @@ p, .body-text {
 }
 
 @media (max-width: 480px) {
+    .features-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .feature-box {
+        width: 100%;
+        max-width: 400px;
+        height: 360px;
+        padding: 2rem 0.75rem;
+        margin: 0;
+    }
+
+    .why-us {
+        padding: 0 1rem;
+    }
+
     .dual-images {
         padding: 0 0.5rem; /* Further reduced padding for very small screens */
     }
@@ -464,7 +537,7 @@ p, .body-text {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 56px;
-    align-items: center;
+    align-items: start;
 }
 
 .contact-form {
@@ -475,6 +548,7 @@ p, .body-text {
 
 .contact-text {
     padding-left: 0;
+    padding-top: 11px;  /* Match the input field's padding */
 }
 
 .contact-text h2 {
@@ -534,9 +608,34 @@ p, .body-text {
 }
 
 .form-group.checkbox input[type="checkbox"] {
-    width: 14px; /* 70% of 20px */
-    height: 14px; /* 70% of 20px */
+    width: 14px;
+    height: 14px;
     margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid #2B2B2B;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.form-group.checkbox input[type="checkbox"]:checked {
+    background-color: #2B2B2B;
+}
+
+.form-group.checkbox input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 .form-group.checkbox label {
@@ -579,11 +678,24 @@ p, .body-text {
 @media (max-width: 968px) {
     .contact-content {
         grid-template-columns: 1fr;
-        gap: 28px; /* 70% of 40px */
+        gap: 40px;
+        justify-items: center;
+        text-align: center;
+    }
+
+    .contact-form {
+        margin: 0 auto;
+    }
+
+    .contact-text {
+        width: 100%;
+        padding-top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .contact-text h2 {
-        font-size: 28px; /* 70% of 40px */
         text-align: center;
     }
 
@@ -668,20 +780,34 @@ p, .body-text {
     max-width: 1200px;
     margin: 0 auto;
     padding: 80px 2rem;
+}
+
+.footer-wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 60px;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 120px;
+}
+
+.footer-logo {
+    flex-shrink: 0;
 }
 
 .footer-logo img {
-    height: 40px;
+    height: 80px;
     width: auto;
 }
 
 .footer-content {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 80px;
+    flex: 1;
+    max-width: 600px;
+}
+
+.footer-section {
+    flex: 1;
 }
 
 .footer-section h3 {
@@ -689,6 +815,7 @@ p, .body-text {
     font-weight: 700;
     font-size: 16px;
     line-height: 100%;
+    letter-spacing: 0;
     margin-bottom: 24px;
     color: #FFFFFF;
 }
@@ -700,30 +827,31 @@ p, .body-text {
 }
 
 .footer-section ul li {
-    margin-bottom: 16px;
-}
-
-.footer-section ul li:last-child {
     margin-bottom: 0;
 }
 
 .footer-section ul li a {
     font-family: 'Manrope', sans-serif;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 100%;
+    font-size: 10px;
+    line-height: 20px;
+    letter-spacing: 0;
     color: #FFFFFF;
+    opacity: 0.8;
     text-decoration: none;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
+    display: inline-block;
 }
 
 .footer-section ul li a:hover {
-    opacity: 0.7;
+    opacity: 1;
+    transform: translateX(5px);
 }
 
 .footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 24px 0;
+    padding: 24px 0 12px;
+    margin-top: 80px;
 }
 
 .footer-bottom p {
@@ -731,28 +859,100 @@ p, .body-text {
     font-weight: 400;
     font-size: 14px;
     line-height: 100%;
+    letter-spacing: 0;
     color: #FFFFFF;
     text-align: center;
     opacity: 0.5;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 968px) {
+    .footer-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
     .footer-content {
-        grid-template-columns: 1fr;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        margin-left: 0;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-wrapper {
+        gap: 60px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
         gap: 40px;
     }
 
     .footer-container {
         padding: 60px 2rem;
-        gap: 40px;
     }
 
-    .footer-section {
-        text-align: center;
+    .footer-bottom {
+        margin-top: 60px;
+    }
+}
+
+.error-message {
+    color: #ff3b30;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    margin-top: 16px;
+    text-align: left;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+/* About Hero Section */
+.about-hero {
+    width: 100%;
+    padding: 0 0 60px;
+    background-color: #F5F5F3;
+    position: relative;
+    z-index: 1;
+    margin-top: 0;
+}
+
+.about-hero .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.about-hero h1 {
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: #2B2B2B;
+    text-align: left;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .about-hero {
+        padding: 0 0 40px;
     }
 
-    .footer-logo {
-        text-align: center;
+    .about-hero .container {
+        padding: 1.5rem;
+    }
+
+    .about-hero h1 {
+        font-size: 40px;
     }
 }
 
