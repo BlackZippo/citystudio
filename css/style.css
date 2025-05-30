@@ -1257,7 +1257,7 @@ p, .body-text {
 /* Prostor Services Section */
 .prostor-services {
     width: 100%;
-    padding: 60px 0;
+    padding: 40px 0;
     background-color: #fff;
 }
 
@@ -1278,7 +1278,7 @@ p, .body-text {
     border-radius: 12px;
     overflow: hidden;
     width: 100%;
-    padding-top: calc(100% / 1.2);
+    padding-top: calc(100% / 1.2); /* Restored to original 1:1.2 ratio */
     position: relative;
 }
 
@@ -1330,13 +1330,20 @@ p, .body-text {
 
 .prostor-services .service-content p {
     font-family: 'Manrope', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 150%;
     color: #FFFFFF;
     opacity: 0.9;
     text-align: left;
     padding-right: 24px;
+    padding-bottom: 24px;
     font-weight: 500;
+}
+
+@media (max-width: 1200px) {
+    .prostor-services .service-item {
+        padding-top: calc(100% / 1.1);
+    }
 }
 
 @media (max-width: 968px) {
@@ -1349,12 +1356,19 @@ p, .body-text {
 
     .prostor-services .service-item {
         max-width: 100%;
+        padding-top: calc(100% / 1.2); /* Keeping original ratio */
+    }
+
+    .prostor-services .service-content p {
+        padding-bottom: 24px;
+        font-size: 12px;
+        line-height: 150%;
     }
 }
 
 @media (max-width: 480px) {
     .prostor-services {
-        padding: 30px 0;
+        padding: 24px 0;
     }
 
     .prostor-services .service-content {
@@ -1370,6 +1384,11 @@ p, .body-text {
         font-size: 12px;
         line-height: 140%;
         padding-right: 16px;
+        padding-bottom: 20px;
+    }
+
+    .prostor-services .service-item {
+        padding-top: calc(100% / 1.1);
     }
 }
 
@@ -1414,7 +1433,7 @@ p, .body-text {
 /* Prostor About Section */
 .prostor-about {
     width: 100%;
-    padding: 60px 0;
+    padding: 40px 0;
     background-color: #fff;
 }
 
@@ -1449,7 +1468,7 @@ p, .body-text {
 
 @media (max-width: 968px) {
     .prostor-about {
-        padding: 40px 0;
+        padding: 32px 0;
     }
 
     .prostor-about h2 {
@@ -1464,7 +1483,7 @@ p, .body-text {
 
 @media (max-width: 480px) {
     .prostor-about {
-        padding: 30px 0;
+        padding: 24px 0;
     }
 
     .prostor-about h2 {
