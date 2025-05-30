@@ -94,6 +94,28 @@ document.addEventListener('DOMContentLoaded', () => {
     serviceContents.forEach(content => {
         serviceObserver.observe(content);
     });
+
+    // Prostor services animation
+    const prostorServiceItems = document.querySelectorAll('.prostor-services .service-item');
+
+    if (prostorServiceItems.length > 0) {
+        const prostorObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                    prostorObserver.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.2
+        });
+
+        prostorServiceItems.forEach(item => {
+            prostorObserver.observe(item);
+        });
+    }
 });
 
 // Handle form validation
