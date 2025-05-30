@@ -18,23 +18,86 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hamburger menu functionality
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
+    const body = document.body;
 
-    hamburger.addEventListener('click', () => {
+    function toggleMenu() {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
-    });
+        body.classList.toggle('menu-open');
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
 
     // Close menu when clicking a link
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+            if (hamburger.classList.contains('active')) {
+                toggleMenu();
+            }
         });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (navMenu.classList.contains('active') && 
+            !navMenu.contains(e.target) && 
+            !hamburger.contains(e.target)) {
+            toggleMenu();
+        }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+
+    // Portfolio items scroll animation
+    const projectItems = document.querySelectorAll('.project-item');
+    
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                observer.unobserve(entry.target); // Stop observing once animated
+            }
+        });
+    }, observerOptions);
+
+    projectItems.forEach(item => {
+        observer.observe(item);
+    });
+
+    // Service content scroll animation
+    const serviceContents = document.querySelectorAll('.service-content');
+    
+    const serviceObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                serviceObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.2
+    });
+
+    serviceContents.forEach(content => {
+        serviceObserver.observe(content);
     });
 });
 
 // Handle form validation
-document.getElementById('contactForm').addEventListener('submit', function(e) {
+document.getElementById('contactForm')?.addEventListener('submit', function(e) {
     e.preventDefault();
     
     const name = document.getElementById('name').value.trim();
