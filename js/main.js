@@ -116,6 +116,44 @@ document.addEventListener('DOMContentLoaded', () => {
             prostorObserver.observe(item);
         });
     }
+
+    // Dual images animation
+    const dualImagesContainer = document.querySelector('.image-container');
+    if (dualImagesContainer) {
+        const dualImagesObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                    dualImagesObserver.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.2
+        });
+
+        dualImagesObserver.observe(dualImagesContainer);
+    }
+
+    // Why Us section animation
+    const whyUsSection = document.querySelector('.why-us');
+    if (whyUsSection) {
+        const whyUsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                    whyUsObserver.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.2
+        });
+
+        whyUsObserver.observe(whyUsSection);
+    }
 });
 
 // Handle form validation
@@ -162,4 +200,36 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+});
+
+// Slideshow functionality
+function initSlideshow() {
+    const slides = document.querySelectorAll('.hero-image .slide');
+    let currentSlide = 0;
+    const slideInterval = 5000; // Change slide every 5 seconds
+
+    function nextSlide() {
+        // Remove previous class from all slides
+        slides.forEach(slide => slide.classList.remove('previous'));
+        
+        // Add previous class to current slide
+        slides[currentSlide].classList.remove('active');
+        slides[currentSlide].classList.add('previous');
+        
+        // Update current slide
+        currentSlide = (currentSlide + 1) % slides.length;
+        
+        // Activate next slide
+        slides[currentSlide].classList.remove('previous');
+        slides[currentSlide].classList.add('active');
+    }
+
+    // Start the slideshow
+    setInterval(nextSlide, slideInterval);
+}
+
+// Initialize slideshow when the DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initSlideshow();
+    // ... existing code ...
 });
