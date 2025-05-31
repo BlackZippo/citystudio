@@ -122,7 +122,11 @@
                     <h2>Kontaktirajte nas za<br>više informacija.</h2>
                 </div>
                 <div class="contact-form">
-                    <form id="contactForm">
+                    <form id="contactForm" action="https://formsubmit.co/bojan.voves@gmail.com" method="POST">
+                        <input type="hidden" name="_next" value="https://citystudio.rs">
+                        <input type="hidden" name="_subject" value="Nova poruka sa City Studio sajta">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_captcha" value="false">
                         <div class="form-group">
                             <input type="text" id="name" name="name" placeholder="Ime i prezime" required>
                         </div>
@@ -138,6 +142,7 @@
                         </div>
                         <button type="submit" class="submit-btn">Pošalji</button>
                         <div class="error-message" id="formError"></div>
+                        <div class="success-message"></div>
                     </form>
                 </div>
             </div>
@@ -163,7 +168,7 @@
                     <div class="footer-section">
                         <h3>Social</h3>
                         <ul>
-                            <li><a href="#">Instagram</a></li>
+                            <li><a href="https://www.instagram.com/citystudio011/" target="_blank">Instagram</a></li>
                             <li><a href="#">Facebook</a></li>
                             <li><a href="#">TikTok</a></li>
                         </ul>

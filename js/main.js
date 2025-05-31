@@ -195,30 +195,149 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // Gallery Slider functionality
+    const sliderWrapper = document.querySelector('.slider-wrapper');
+    const slides = document.querySelectorAll('.gallery-slider .slide');
+    const prevBtn = document.querySelector('.slider-nav.prev');
+    const nextBtn = document.querySelector('.slider-nav.next');
+    const dotsContainer = document.querySelector('.slider-dots');
+    let currentSlide = 0;
+    let autoSlideInterval;
+
+    if (slides.length > 0) {
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        // Update dots
+        function updateDots() {
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        // Go to specific slide
+        function goToSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+            slides[currentSlide].classList.add('active');
+            updateDots();
+        }
+
+        // Next slide
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        // Previous slide
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        // Add click events to navigation buttons
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                resetAutoSlide();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                resetAutoSlide();
+            });
+        }
+
+        // Auto slide functionality
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        }
+
+        // Start auto slide
+        startAutoSlide();
+
+        // Pause auto slide on hover
+        sliderWrapper?.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+        sliderWrapper?.addEventListener('mouseleave', startAutoSlide);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+                resetAutoSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+                resetAutoSlide();
+            }
+        });
+
+        // Touch support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        sliderWrapper?.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        sliderWrapper?.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+                resetAutoSlide();
+            }
+        }
+    }
 });
 
 // Handle form validation
-document.getElementById('contactForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contactForm');
     
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
-    const errorElement = document.getElementById('formError');
-    
-    // Check if required fields are empty
-    if (!name || !email || !message) {
-        errorElement.textContent = 'Molim Vas popunite sva polja.';
-        errorElement.classList.add('show');
-        return;
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Don't prevent default - let the form submit normally for the first time
+            // This will allow FormSubmit.co to send the activation email
+            
+            // Show success message
+            let successMsg = document.querySelector('.success-message');
+            if (!successMsg) {
+                successMsg = document.createElement('div');
+                successMsg.className = 'success-message';
+                form.appendChild(successMsg);
+            }
+            
+            successMsg.textContent = 'Poruka je poslata';
+            successMsg.classList.add('show');
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 5000);
+        });
     }
-    
-    // If all required fields are filled, remove error message
-    errorElement.textContent = '';
-    errorElement.classList.remove('show');
-    
-    // Here you would typically send the form data to a server
-    console.log('Form submitted:', { name, email, message });
 });
 
 // Page transition handling
