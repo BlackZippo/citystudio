@@ -310,38 +310,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-});
 
-// Handle form validation and success message
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('contactForm');
-    
-    // Check if form was just submitted
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('submitted') === 'true') {
-        let successMsg = document.querySelector('.success-message');
-        if (!successMsg) {
-            successMsg = document.createElement('div');
-            successMsg.className = 'success-message';
-            form.appendChild(successMsg);
-        }
-        
-        successMsg.textContent = 'Poruka je poslata';
-        successMsg.classList.add('show');
-        
-        // Remove the query parameter
+    // Contact Form Handling
+    const contactForm = document.getElementById('contactForm');
+    const successMessage = document.querySelector('.success-message');
+    const errorMessage = document.getElementById('formError');
+
+    // Check if we're returning from a form submission
+    if (window.location.search.includes('submitted=true')) {
+        successMessage.textContent = 'Poruka je poslata';
+        successMessage.style.display = 'block';
+        // Remove the query parameter from URL without refreshing
         window.history.replaceState({}, document.title, window.location.pathname);
-        
-        // Hide success message after 5 seconds
-        setTimeout(() => {
-            successMsg.classList.remove('show');
-        }, 5000);
     }
-    
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            // Let the form submit normally - no need to prevent default
-            // Success message will be shown when redirected back
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            try {
+                errorMessage.style.display = 'none';
+                errorMessage.textContent = '';
+            } catch (error) {
+                console.error('Error in form submission:', error);
+            }
         });
     }
 });

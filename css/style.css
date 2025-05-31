@@ -1049,17 +1049,24 @@ p, .body-text {
     }
 }
 
-.error-message {
-    color: #ff3b30;
-    font-family: 'Manrope', sans-serif;
-    font-size: 14px;
-    margin-top: 16px;
-    text-align: left;
+.success-message {
     display: none;
+    color: #4CAF50;
+    background-color: #E8F5E9;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    text-align: center;
 }
 
-.error-message.show {
-    display: block;
+.error-message {
+    display: none;
+    color: #f44336;
+    background-color: #FFEBEE;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    text-align: center;
 }
 
 /* About Hero Section */
@@ -2151,35 +2158,6 @@ p, .body-text {
     .slider-nav {
         width: 36px;
         height: 36px;
-    }
-}
-
-/* Contact Form Success Message */
-.success-message {
-    display: none;
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    border-radius: 8px;
-    margin-top: 20px;
-    text-align: center;
-    font-family: 'Manrope', sans-serif;
-    font-size: 16px;
-    animation: fadeIn 0.5s ease-in;
-}
-
-.success-message.show {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
     }
 }
 
