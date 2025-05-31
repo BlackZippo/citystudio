@@ -316,6 +316,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const successMessage = document.querySelector('.success-message');
     const errorMessage = document.getElementById('formError');
 
+    // Set the _next parameter to the current page URL
+    if (contactForm) {
+        const currentURL = window.location.href.split('?')[0]; // Remove any existing query parameters
+        const nextInput = contactForm.querySelector('input[name="_next"]');
+        if (nextInput) {
+            nextInput.value = currentURL + '?submitted=true';
+        }
+    }
+
     // Check if we're returning from a form submission
     if (window.location.search.includes('submitted=true')) {
         successMessage.textContent = 'Poruka je poslata';
