@@ -318,58 +318,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (form) {
         form.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Create FormData object
-            const formData = new FormData(form);
+            // Let the form submit normally
+            // Show success message
+            let successMsg = document.querySelector('.success-message');
+            if (!successMsg) {
+                successMsg = document.createElement('div');
+                successMsg.className = 'success-message';
+                form.appendChild(successMsg);
+            }
             
-            // Convert FormData to URL-encoded string
-            const data = new URLSearchParams(formData);
-
-            // Send the form data
-            fetch(form.action, {
-                method: 'POST',
-                body: data,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Show success message
-                    let successMsg = document.querySelector('.success-message');
-                    if (!successMsg) {
-                        successMsg = document.createElement('div');
-                        successMsg.className = 'success-message';
-                        form.appendChild(successMsg);
-                    }
-                    
-                    successMsg.textContent = 'Poruka je poslata';
-                    successMsg.classList.add('show');
-                    
-                    // Reset form
-                    form.reset();
-                    
-                    // Hide success message after 5 seconds
-                    setTimeout(() => {
-                        successMsg.classList.remove('show');
-                    }, 5000);
-                } else {
-                    throw new Error('Network response was not ok');
-                }
-            })
-            .catch(error => {
-                // Show error message
-                const errorMsg = document.getElementById('formError');
-                if (errorMsg) {
-                    errorMsg.textContent = 'Došlo je do greške. Molimo pokušajte ponovo.';
-                    errorMsg.classList.add('show');
-                    
-                    setTimeout(() => {
-                        errorMsg.classList.remove('show');
-                    }, 5000);
-                }
-            });
+            successMsg.textContent = 'Poruka je poslata';
+            successMsg.classList.add('show');
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 5000);
         });
     }
 });
