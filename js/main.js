@@ -312,28 +312,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Handle form validation
+// Handle form validation and success message
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('contactForm');
     
+    // Check if form was just submitted
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('submitted') === 'true') {
+        let successMsg = document.querySelector('.success-message');
+        if (!successMsg) {
+            successMsg = document.createElement('div');
+            successMsg.className = 'success-message';
+            form.appendChild(successMsg);
+        }
+        
+        successMsg.textContent = 'Poruka je poslata';
+        successMsg.classList.add('show');
+        
+        // Remove the query parameter
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+            successMsg.classList.remove('show');
+        }, 5000);
+    }
+    
     if (form) {
         form.addEventListener('submit', function(e) {
-            // Let the form submit normally
-            // Show success message
-            let successMsg = document.querySelector('.success-message');
-            if (!successMsg) {
-                successMsg = document.createElement('div');
-                successMsg.className = 'success-message';
-                form.appendChild(successMsg);
-            }
-            
-            successMsg.textContent = 'Poruka je poslata';
-            successMsg.classList.add('show');
-            
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                successMsg.classList.remove('show');
-            }, 5000);
+            // Let the form submit normally - no need to prevent default
+            // Success message will be shown when redirected back
         });
     }
 });
