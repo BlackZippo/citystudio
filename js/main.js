@@ -154,6 +154,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
         whyUsObserver.observe(whyUsSection);
     }
+
+    // Gallery functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const galleryGrid = document.querySelector('.gallery-grid');
+
+    // Show photo-studio items by default
+    galleryItems.forEach(item => {
+        if (item.classList.contains('photo-studio')) {
+            item.classList.add('show');
+        }
+    });
+
+    // Filter functionality
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            const filterValue = button.getAttribute('data-filter');
+
+            galleryItems.forEach(item => {
+                if (item.classList.contains(filterValue)) {
+                    item.classList.add('show');
+                } else {
+                    item.classList.remove('show');
+                }
+            });
+        });
+    });
 });
 
 // Handle form validation
