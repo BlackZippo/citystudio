@@ -160,32 +160,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryItems = document.querySelectorAll('.gallery-item');
     const galleryGrid = document.querySelector('.gallery-grid');
 
-    // Show photo-studio items by default
-    galleryItems.forEach(item => {
-        if (item.classList.contains('photo-studio')) {
-            item.classList.add('show');
-        }
-    });
+    if (filterButtons.length > 0 && galleryItems.length > 0) {
+        // Show photo-studio items by default and hide others
+        galleryItems.forEach(item => {
+            if (item.classList.contains('photo-studio')) {
+                item.classList.add('show');
+            } else {
+                item.classList.remove('show');
+            }
+        });
 
-    // Filter functionality
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove active class from all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Add active class to clicked button
-            button.classList.add('active');
+        // Filter functionality
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                try {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    button.classList.add('active');
 
-            const filterValue = button.getAttribute('data-filter');
+                    const filterValue = button.getAttribute('data-filter');
+                    console.log('Filtering gallery items for:', filterValue);
 
-            galleryItems.forEach(item => {
-                if (item.classList.contains(filterValue)) {
-                    item.classList.add('show');
-                } else {
-                    item.classList.remove('show');
+                    galleryItems.forEach(item => {
+                        if (item.classList.contains(filterValue)) {
+                            item.classList.add('show');
+                        } else {
+                            item.classList.remove('show');
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error in gallery filtering:', error);
                 }
             });
         });
-    });
+    }
 });
 
 // Handle form validation
