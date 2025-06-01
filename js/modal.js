@@ -20,10 +20,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (floorPlan) {
         // Open modal on image click
-        floorPlan.addEventListener('click', function() {
+        floorPlan.addEventListener('click', function(e) {
             console.log('Image clicked'); // Debug log
             const imageSrc = this.getAttribute('src'); // Use getAttribute instead of src property
             console.log('Setting modal image src to:', imageSrc); // Debug log
+            
+            // Get click position relative to viewport
+            const rect = this.getBoundingClientRect();
+            const clickY = e.clientY;
+            const viewportHeight = window.innerHeight;
+            
+            // Calculate initial scroll position for modal
+            const scrollOffset = window.pageYOffset;
+            modal.style.top = scrollOffset + 'px';
+            
+            // Position image near click point but ensure it's visible
+            const imageTop = Math.max(60, Math.min(clickY - 100, viewportHeight - 200));
+            modalImg.style.marginTop = imageTop + 'px';
+            
             modalImg.src = imageSrc;
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
@@ -34,10 +48,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const planImageContainer = document.querySelector('.plan-image');
         if (planImageContainer) {
             planImageContainer.style.cursor = 'pointer';
-            planImageContainer.addEventListener('click', function() {
+            planImageContainer.addEventListener('click', function(e) {
                 console.log('Container clicked'); // Debug log
                 const imageSrc = floorPlan.getAttribute('src'); // Use getAttribute instead of src property
                 console.log('Container click - setting modal image src to:', imageSrc); // Debug log
+                
+                // Get click position relative to viewport
+                const rect = floorPlan.getBoundingClientRect();
+                const clickY = e.clientY;
+                const viewportHeight = window.innerHeight;
+                
+                // Calculate initial scroll position for modal
+                const scrollOffset = window.pageYOffset;
+                modal.style.top = scrollOffset + 'px';
+                
+                // Position image near click point but ensure it's visible
+                const imageTop = Math.max(60, Math.min(clickY - 100, viewportHeight - 200));
+                modalImg.style.marginTop = imageTop + 'px';
+                
                 modalImg.src = imageSrc;
                 modal.classList.add('show');
                 document.body.style.overflow = 'hidden';
@@ -51,6 +79,9 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Closing modal'); // Debug log
         modal.classList.remove('show');
         document.body.style.overflow = '';
+        // Reset modal positioning
+        modal.style.top = '';
+        modalImg.style.marginTop = '';
     }
 
     // Close on button click
