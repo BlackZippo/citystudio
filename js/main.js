@@ -198,115 +198,117 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gallery Slider functionality
     const sliderWrapper = document.querySelector('.slider-wrapper');
-    const slides = document.querySelectorAll('.gallery-slider .slide');
-    const prevBtn = document.querySelector('.slider-nav.prev');
-    const nextBtn = document.querySelector('.slider-nav.next');
-    const dotsContainer = document.querySelector('.slider-dots');
-    let currentSlide = 0;
-    let autoSlideInterval;
+    if (sliderWrapper) {  // Only run slider code if slider exists
+        const slides = document.querySelectorAll('.gallery-slider .slide');
+        const prevBtn = document.querySelector('.slider-nav.prev');
+        const nextBtn = document.querySelector('.slider-nav.next');
+        const dotsContainer = document.querySelector('.slider-dots');
+        let currentSlide = 0;
+        let autoSlideInterval;
 
-    if (slides.length > 0) {
-        // Create dots
-        slides.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(index));
-            dotsContainer.appendChild(dot);
-        });
-
-        // Update dots
-        function updateDots() {
-            document.querySelectorAll('.dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
-        }
-
-        // Go to specific slide
-        function goToSlide(index) {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = index;
-            if (currentSlide >= slides.length) currentSlide = 0;
-            if (currentSlide < 0) currentSlide = slides.length - 1;
-            slides[currentSlide].classList.add('active');
-            updateDots();
-        }
-
-        // Next slide
-        function nextSlide() {
-            goToSlide(currentSlide + 1);
-        }
-
-        // Previous slide
-        function prevSlide() {
-            goToSlide(currentSlide - 1);
-        }
-
-        // Add click events to navigation buttons
-        if (prevBtn && nextBtn) {
-            prevBtn.addEventListener('click', () => {
-                prevSlide();
-                resetAutoSlide();
+        if (slides.length > 0) {
+            // Create dots
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
             });
 
-            nextBtn.addEventListener('click', () => {
-                nextSlide();
-                resetAutoSlide();
-            });
-        }
-
-        // Auto slide functionality
-        function startAutoSlide() {
-            autoSlideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
-        }
-
-        function resetAutoSlide() {
-            clearInterval(autoSlideInterval);
-            startAutoSlide();
-        }
-
-        // Start auto slide
-        startAutoSlide();
-
-        // Pause auto slide on hover
-        sliderWrapper?.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-        sliderWrapper?.addEventListener('mouseleave', startAutoSlide);
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                prevSlide();
-                resetAutoSlide();
-            } else if (e.key === 'ArrowRight') {
-                nextSlide();
-                resetAutoSlide();
+            // Update dots
+            function updateDots() {
+                document.querySelectorAll('.dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
             }
-        });
 
-        // Touch support
-        let touchStartX = 0;
-        let touchEndX = 0;
+            // Go to specific slide
+            function goToSlide(index) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = index;
+                if (currentSlide >= slides.length) currentSlide = 0;
+                if (currentSlide < 0) currentSlide = slides.length - 1;
+                slides[currentSlide].classList.add('active');
+                updateDots();
+            }
 
-        sliderWrapper?.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
+            // Next slide
+            function nextSlide() {
+                goToSlide(currentSlide + 1);
+            }
 
-        sliderWrapper?.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
+            // Previous slide
+            function prevSlide() {
+                goToSlide(currentSlide - 1);
+            }
 
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const diff = touchStartX - touchEndX;
-
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    nextSlide();
-                } else {
+            // Add click events to navigation buttons
+            if (prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', () => {
                     prevSlide();
+                    resetAutoSlide();
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    nextSlide();
+                    resetAutoSlide();
+                });
+            }
+
+            // Auto slide functionality
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+            }
+
+            function resetAutoSlide() {
+                clearInterval(autoSlideInterval);
+                startAutoSlide();
+            }
+
+            // Start auto slide
+            startAutoSlide();
+
+            // Pause auto slide on hover
+            sliderWrapper?.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+            sliderWrapper?.addEventListener('mouseleave', startAutoSlide);
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                    resetAutoSlide();
+                } else if (e.key === 'ArrowRight') {
+                    nextSlide();
+                    resetAutoSlide();
                 }
-                resetAutoSlide();
+            });
+
+            // Touch support
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            sliderWrapper?.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            sliderWrapper?.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                    resetAutoSlide();
+                }
             }
         }
     }
@@ -370,27 +372,29 @@ document.addEventListener('DOMContentLoaded', () => {
 // Slideshow functionality
 function initSlideshow() {
     const slides = document.querySelectorAll('.hero-image .slide');
-    let currentSlide = 0;
-    const slideInterval = 5000; // Change slide every 5 seconds
+    if (slides.length > 0) {  // Only initialize if slides exist
+        let currentSlide = 0;
+        const slideInterval = 5000; // Change slide every 5 seconds
 
-    function nextSlide() {
-        // Remove previous class from all slides
-        slides.forEach(slide => slide.classList.remove('previous'));
-        
-        // Add previous class to current slide
-        slides[currentSlide].classList.remove('active');
-        slides[currentSlide].classList.add('previous');
-        
-        // Update current slide
-        currentSlide = (currentSlide + 1) % slides.length;
-        
-        // Activate next slide
-        slides[currentSlide].classList.remove('previous');
-        slides[currentSlide].classList.add('active');
+        function nextSlide() {
+            // Remove previous class from all slides
+            slides.forEach(slide => slide.classList.remove('previous'));
+            
+            // Add previous class to current slide
+            slides[currentSlide].classList.remove('active');
+            slides[currentSlide].classList.add('previous');
+            
+            // Update current slide
+            currentSlide = (currentSlide + 1) % slides.length;
+            
+            // Activate next slide
+            slides[currentSlide].classList.remove('previous');
+            slides[currentSlide].classList.add('active');
+        }
+
+        // Start the slideshow
+        setInterval(nextSlide, slideInterval);
     }
-
-    // Start the slideshow
-    setInterval(nextSlide, slideInterval);
 }
 
 // Initialize slideshow when the DOM is loaded

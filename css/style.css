@@ -1115,6 +1115,7 @@ p, .body-text {
     color: #2B2B2B;
     text-align: left;
     margin-bottom: 40px;
+    padding-top: 30px;
 }
 
 .about-content p {
@@ -1477,6 +1478,7 @@ p, .body-text {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    aspect-ratio: 16/9;
 }
 
 .prostor-services .service-text {
@@ -1527,46 +1529,93 @@ p, .body-text {
 
     .prostor-services .service-item {
         max-width: 100%;
-        padding-top: calc(100% / 1.2); /* Keeping original ratio */
+        height: 420px; /* Further reduced */
+        position: relative;
+    }
+
+    .prostor-services .service-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 12px; /* Reduced padding */
+        display: flex;
+        flex-direction: column;
+        gap: 6px; /* Reduced gap */
+    }
+
+    .prostor-services .service-image {
+        flex: 0 0 auto;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        margin-bottom: 6px; /* Reduced margin */
+    }
+
+    .prostor-services .service-text {
+        flex: 1 1 auto;
+        min-height: 90px; /* Reduced */
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
     }
 
     .prostor-services .service-content p {
-        padding-bottom: 24px;
-        font-size: 12px;
-        line-height: 150%;
+        padding-bottom: 8px; /* Reduced padding */
     }
 }
 
 @media (max-width: 480px) {
-    .prostor-services {
-        padding: 24px 0;
+    .prostor-services .service-item {
+        height: 380px; /* Further reduced */
     }
 
     .prostor-services .service-content {
-        padding: 20px;
+        padding: 8px;
+        gap: 4px;
     }
 
-    .prostor-services .service-content h3 {
-        font-size: 18px;
-        margin-bottom: 12px;
+    .prostor-services .service-image {
+        margin-bottom: 4px;
+    }
+
+    .prostor-services .service-text {
+        min-height: 100px;
+        gap: 2px;
     }
 
     .prostor-services .service-content p {
-        font-size: 12px;
-        line-height: 140%;
-        padding-right: 16px;
-        padding-bottom: 20px;
+        padding-bottom: 6px;
+        font-size: 13px;
+        line-height: 135%;
+    }
+}
+
+@media (max-width: 360px) {
+    .prostor-services .service-item {
+        height: 350px; /* Further reduced */
     }
 
-    .prostor-services .service-item {
-        padding-top: calc(100% / 1.1);
+    .prostor-services .service-content {
+        padding: 6px;
+    }
+
+    .prostor-services .service-text {
+        min-height: 110px;
+    }
+
+    .prostor-services .service-content p {
+        padding-bottom: 4px;
+        font-size: 12px;
+        line-height: 130%;
     }
 }
 
 /* Prostor Plan Section */
 .prostor-plan {
     width: 100%;
-    padding: 20px 0 60px 0;
+    padding: 0 0 60px 0;
     background-color: #fff;
 }
 
@@ -1587,6 +1636,102 @@ p, .body-text {
     width: 100%;
     height: auto;
     object-fit: contain;
+    cursor: pointer; /* Added cursor pointer */
+    transition: opacity 0.3s ease;
+}
+
+.plan-image img:hover {
+    opacity: 0.9;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    padding: 40px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    overflow: hidden;
+}
+
+.modal.show {
+    display: flex !important;
+    justify-content: center;
+    align-items: flex-start;
+    opacity: 1;
+    padding-top: 5vh;
+}
+
+.modal img {
+    max-width: 90vw;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+    filter: brightness(1.1) contrast(1.1);
+}
+
+.modal-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    z-index: 10001;
+    transition: background-color 0.3s ease;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile adjustments for modal */
+@media (max-width: 768px) {
+    .modal {
+        padding: 20px;
+    }
+
+    .modal.show {
+        padding-top: 60px;
+        align-items: flex-start;
+    }
+
+    .modal img {
+        max-width: 100%;
+        max-height: 85vh;
+        width: 100%;
+        margin-top: 0;
+        object-fit: contain;
+        transform: none;
+    }
+
+    .modal-close {
+        top: 10px;
+        right: 10px;
+    }
 }
 
 @media (max-width: 968px) {
@@ -1664,32 +1809,6 @@ p, .body-text {
 
     .prostor-about p {
         font-size: 14px;
-    }
-}
-
-/* Extra small devices */
-@media (max-width: 360px) {
-    .service-item {
-        padding-top: 160%; /* Even taller for very small screens */
-    }
-
-    .service-image {
-        height: 35%;
-        margin-bottom: 16px;
-    }
-
-    .service-text {
-        height: 65%;
-    }
-
-    .service-content {
-        padding: 16px;
-    }
-
-    .service-content p {
-        font-size: 12px;
-        line-height: 145%;
-        padding-right: 12px;
     }
 }
 
@@ -2159,5 +2278,69 @@ p, .body-text {
         width: 36px;
         height: 36px;
     }
+}
+
+/* iPad Pro and similar devices */
+@media (max-width: 1024px) {
+    .prostor-services .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .prostor-services .service-item {
+        max-width: 100%;
+        height: 420px;
+        position: relative;
+    }
+
+    .prostor-services .service-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .prostor-services .service-image {
+        flex: 0 0 auto;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        margin-bottom: 6px;
+    }
+
+    .prostor-services .service-text {
+        flex: 1 1 auto;
+        min-height: 90px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .prostor-services .service-content h3 {
+        font-size: 18px;
+        margin-bottom: 4px;
+    }
+
+    .prostor-services .service-content p {
+        font-size: 13px;
+        line-height: 135%;
+        padding-bottom: 8px;
+        padding-right: 12px;
+    }
+}
+
+/* Keep existing mobile breakpoints */
+@media (max-width: 968px) {
+    .prostor-services .services-grid {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    /* ... rest of the existing 968px styles ... */
 }
 
